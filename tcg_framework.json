@@ -1,0 +1,72 @@
+
+
+
+{
+  "tcg_framework": {
+    "title": "Universal TCG Rulings & Alternative Win Conditions Schema",
+    "protocol": "Al-Haqq Protocol",
+    "author": "ICAM / Syams Maulana",
+    "version": "1.0.0",
+    "fundamental_rulings": [
+      {
+        "rule_id": "R1",
+        "name": "Supremasi Teks (Literal Text Rule)",
+        "description": "Teks yang tertera pada kartu adalah hukum mutlak. Apa yang tertulis secara harfiah itulah yang terjadi tanpa asumsi atau tebakan niat di luar batas teks."
+      },
+      {
+        "rule_id": "R2",
+        "name": "Pemisahan Biaya dan Efek (Cost vs. Effect)",
+        "description": "Biaya harus dibayar sebelum aktivasi dan bersifat final (tidak dapat dikembalikan meskipun efek digagalkan). Efek adalah hasil setelah biaya terpenuhi dan dapat direspons."
+      },
+      {
+        "rule_id": "R3",
+        "name": "Prioritas dan Alur Respons (Timing & Priority)",
+        "description": "Menggunakan prinsip tumpukan atau rantai (Chain/Stack) dengan mekanisme Last In, First Out (LIFO). Giliran utama dipegang oleh Turn Player."
+      },
+      {
+        "rule_id": "R4",
+        "name": "Aturan Spesifik Mengalahkan Aturan Umum (Specific Beats General)",
+        "description": "Teks spesifik pada kartu selalu membatalkan atau mengesampingkan aturan umum buku panduan (Rulebook)."
+      }
+    ],
+    "alternative_win_conditions": [
+      {
+        "category": "Hand Assembly Combo",
+        "description": "Mengumpulkan set kartu spesifik secara bersamaan di tangan atau area bermain.",
+        "classic_example": "Exodia the Forbidden One",
+        "complexity": "Tinggi",
+        "vulnerability": "Sangat Tinggi",
+        "success_chance_min_pct": 5,
+        "success_chance_max_pct": 15
+      },
+      {
+        "category": "Library Depletion Win",
+        "description": "Kemenangan instan saat ukuran deck/library habis atau melalui efek pemicu kosongnya tumpukan kartu.",
+        "classic_example": "Thassa's Oracle + Demonic Consultation",
+        "complexity": "Rendah - Sedang",
+        "vulnerability": "Rendah",
+        "success_chance_min_pct": 60,
+        "success_chance_max_pct": 85
+      },
+      {
+        "category": "Counter/Turn Accumulation",
+        "description": "Mempertahankan kartu atau kondisi di papan selama jumlah giliran atau counter tertentu tercapai.",
+        "classic_example": "Final Countdown / Azor's Elocutors",
+        "complexity": "Tinggi",
+        "vulnerability": "Sangat Tinggi",
+        "success_chance_min_pct": 10,
+        "success_chance_max_pct": 25
+      },
+      {
+        "category": "Forced Attrition (Mill)",
+        "description": "Memaksa deck lawan habis melalui manipulasi kuburan atau efek paksa ambil kartu (draw pacing).",
+        "classic_example": "Runick archetype / Mill Control",
+        "complexity": "Sedang",
+        "vulnerability": "Sedang",
+        "success_chance_min_pct": 30,
+        "success_chance_max_pct": 45
+      }
+    ]
+  }
+}
+
