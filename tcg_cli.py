@@ -13,6 +13,15 @@ def save_data(data):
     with open(DB_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4)
 
+def get_int_input(prompt):
+    """Fungsi pembantu agar input angka tidak bikin aplikasi crash jika kosong."""
+    while True:
+        val = input(prompt)
+        try:
+            return int(val)
+        except ValueError:
+            print("[!] Harap masukkan angka yang valid (contoh: 2000).")
+
 def list_cards():
     data = load_data()
     if not data or not data["itemListElement"]:
@@ -39,8 +48,10 @@ def add_card():
     c_type = input("Tipe Kartu (Commander / Spell / Warrior): ")
     nfc_input = input("Gunakan Stiker NFC? (y/n): ").lower()
     nfc_enabled = True if nfc_input == 'y' else False
-    power = int(input("Atribut Power (Angka, cth: 2000): "))
-    cost = int(input("Resource Cost (Angka, cth: 1): "))
+    
+    power = get_int_input("Atribut Power (Angka, cth: 2000): ")
+    cost = get_int_input("Resource Cost (Angka, cth: 1): ")
+    
     het = input("Harga Eceran Tertinggi / HET (cth: Rp 15.000): ")
     lore = input("Deskripsi / Lore Kartu: ")
 
