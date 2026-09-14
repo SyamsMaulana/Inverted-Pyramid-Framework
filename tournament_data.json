@@ -1,0 +1,24 @@
+{
+    "name": "GOD•MauL TCG Championship",
+    "players": [
+        {
+            "name": "GOD•MauL",
+            "points": 12,
+            "opponents": [
+                "Rival-01"
+            ]
+        },
+        {
+            "name": "Rival-01",
+            "points": 0,
+            "opponents": [
+                "GOD•MauL"
+            ]
+        },
+        {
+            "name": "Duelist-X",
+            "points": 0,
+            "opponents": []
+        }
+    ]
+}
