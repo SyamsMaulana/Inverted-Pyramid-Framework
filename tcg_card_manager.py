@@ -47,7 +47,8 @@ def view_cards():
         print(f"\n--- {data['name']} ---")
         print(f"Kreator: {data['creator']} | Framework: {data['framework']}\n")
         for card in data["itemListElement"]:
-            nfc_status = "Aktif (NFC Chip)" & card["nfcEnabled"] or "Standar (Visual Secure)"
+            # Perbaikan operator terner Python
+            nfc_status = "Aktif (NFC Chip)" if card["nfcEnabled"] else "Standar (Visual Secure)"
             print(f"[{card['cardId']}] {card['name']}")
             print(f" > Faksi: {card['fringe']} | Tipe: {card['type']}")
             print(f" > Atribut: Power {card['power']} | Pengaman: {nfc_status}")
