@@ -1,0 +1,9 @@
+[
+    {
+        "timestamp": "2026-09-11 18:20:20",
+        "title": "Arsip Perdana GOD•MauL Hub",
+        "description": "Uji coba penyimpanan otomatis ke hub_archive.json.",
+        "processed_content": "Sistem arsip lokal berjalan mulus, mencatat setiap narasi kearifan lokal tanpa celah.\n\n---\n\nCap Digital Kolaborasi Pemikiran & Penyempurnaan Bersama: ICAM (Syams Maulana) & AI — Al-Haqq Protocol Verified.",
+        "json_ld_schema": "{\n    \"@context\": \"https://schema.org\",\n    \"@type\": \"Article\",\n    \"headline\": \"Arsip Perdana GOD•MauL Hub\",\n    \"description\": \"Uji coba penyimpanan otomatis ke hub_archive.json.\",\n    \"author\": {\n        \"@type\": \"Person\",\n        \"name\": \"Syams Maulana (ICAM)\"\n    },\n    \"datePublished\": \"2026-09-11\",\n    \"mainEntityOfPage\": \"https://syams-alhaqq.blogspot.com\",\n    \"publisher\": {\n        \"@type\": \"Organization\",\n        \"name\": \"Al-Haqq Protocol & CSR Indonesia Network\"\n    }\n}"
+    }
+]

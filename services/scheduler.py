@@ -1,0 +1,27 @@
+
+
+
+import time
+import subprocess
+import datetime
+
+def background_scheduler():
+    # Interval waktu dalam detik (Contoh: setiap 6 jam = 21600 detik)
+    interval = 21600 
+    
+    while True:
+        current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(f"[{current_time}] Menjalankan siklus sinkronisasi protokol otomatis...")
+        
+        try:
+            # Memanggil skrip sinkronisasi utama
+            subprocess.run(["python", "protocol_sync.py"], check=True)
+            print(f"[{current_time}] Sinkronisasi berkala sukses.")
+        except subprocess.CalledProcessError as e:
+            print(f"[{current_time}] Error saat sinkronisasi berkala: {e}")
+            
+        print(f"Menunggu siklus berikutnya dalam {interval / 3600} jam...\n")
+        time.sleep(interval)
+
+if __name__ == "__main__":
+    background_scheduler()

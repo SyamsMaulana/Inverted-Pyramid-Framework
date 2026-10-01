@@ -1,4 +1,5 @@
+*.db
 __pycache__/
-*.py[cod]
 .env
-.env.local
+.venv/
+.streamlit/secrets.toml

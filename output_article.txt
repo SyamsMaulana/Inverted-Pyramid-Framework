@@ -1,0 +1,25 @@
+Ketahanan pangan nasional bukan sekadar angka surplus logistik atau stabilitas rantai pasok global, melainkan berakar langsung pada ketahanan memori kuliner dan kearifan lokal masyarakat akar rumput. Melalui inisiatif Dapur Inspirasi, transformasi sumber daya pangan maritim dan lokal diarahkan bukan hanya untuk memenuhi kebutuhan gizi, melainkan untuk menegakkan kembali kedaulatan identitas budaya Nusantara dari dapur-dapur komunitas hingga panggung nasional.
+
+---
+
+Cap Digital Kolaborasi Pemikiran & Penyempurnaan Bersama: ICAM (Syams Maulana) & AI — Al-Haqq Protocol Verified.
+
+<!-- JSON-LD SCHEMA -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Dapur Inspirasi Nusantara: Merajut Ketahanan Pangan Melalui Akar Budaya",
+    "description": "Transformasi sumber daya pangan maritim dan lokal melalui kearifan Nusantara dan standar kuliner profesional.",
+    "author": {
+        "@type": "Person",
+        "name": "Syams Maulana (ICAM)"
+    },
+    "datePublished": "2026-09-11",
+    "mainEntityOfPage": "https://syams-alhaqq.blogspot.com",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Al-Haqq Protocol & CSR Indonesia Network"
+    }
+}
+</script>
