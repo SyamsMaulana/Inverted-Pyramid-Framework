@@ -1,4 +1,13 @@
-import streamlit as st import datetime 
+
+
+
+
+
+
+
+
+import streamlit as st
+import datetime
 import sqlite3
 
 # Page Configuration
@@ -11,7 +20,7 @@ st.set_page_config(
 
 # SQLite Database Initialization for Persistent Sovereignty
 def init_db():
-    conn = sqlite3.connect('databas/ryl_local.db', check_same_thread=False)
+    conn = sqlite3.connect('database/ryl_local.db', check_same_thread=False)
     c = conn.cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS ledger 
                  (date TEXT PRIMARY KEY, intent TEXT, nasigoreng_orders INT, github_pushes INT, notes TEXT)''')
