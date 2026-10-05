@@ -1,8 +1,3 @@
-
-
-
-
-
 import hashlib
 import datetime
 from dataclasses import dataclass
@@ -36,8 +31,7 @@ class EvidenceObject:
     signature_status: str = "UNSIGNED"   # UNSIGNED | VALID | INVALID
     source_status: str = "UNVERIFIED"   # UNVERIFIED | DECLARED | VERIFIED_EXTERNAL
     
-    # UNKNOWN | DISJOINT_IDENTITY | DECLARED_INDEPENDENCE | POLICY_VERIFIED
-    independence_status: str = "UNKNOWN"
+    independence_status: str = "UNKNOWN" # UNKNOWN | DISJOINT_IDENTITY | DECLARED_INDEPENDENCE | POLICY_VERIFIED
     derived_from: Optional[str] = None
 
     def __post_init__(self):
@@ -61,7 +55,7 @@ class EpistemicClaim:
         self.signature_hex = None
         self.authenticity_status = "UNVERIFIED"
         
-        # 3. Provenance Layer (W3C PROV Compliant)
+        # 3. Provenance Layer
         self.provenance = {
             "entity_id": f"urn:claim:{self.content_hash[:10]}",
             "activity": "CLAIM_GENERATION",
@@ -73,7 +67,7 @@ class EpistemicClaim:
         self.supporting_evidence: List[EvidenceObject] = []
         self.contradicting_evidence: List[EvidenceObject] = []
         
-        # 5. Epistemic Status State Machine
+        # 5. Epistemic Status
         self.status = "UNVERIFIED"
         self.confidence_score = 0.0
 
@@ -94,20 +88,22 @@ class EpistemicClaim:
             
     def evaluate_epistemic_status(self):
         """
-        P2 State Machine Implementation:
-        Mencegah jalan pintas menuju SUPPORTED & menegakkan Hard Invariants.
+        P2/P4 Guarded Evaluation with Pre & Post Invariant Checks
         """
+        # 1. Pre-Check: Tangkap jika status di-override dari luar secara paksa
+        if self.status in FORBIDDEN_EPISTEMIC_STATUSES:
+            raise ValueError(f"CRITICAL INVARIANT VIOLATION: Forbidden status '{self.status}' injected.")
+
         supp_count = len(self.supporting_evidence)
         contra_count = len(self.contradicting_evidence)
         author = self.provenance["agent"]
         
-        # Hitung bukti independen vs self-attested
         has_external_support = any(
             e.provider_agent != author or e.independence_status in ["DISJOINT_IDENTITY", "POLICY_VERIFIED"]
             for e in self.supporting_evidence
         )
         
-        # Rule Evaluation
+        # 2. Rule Evaluation
         if contra_count > 0 and contra_count >= supp_count:
             self.status = "CONTRADICTED"
             self.confidence_score = 0.0
@@ -119,13 +115,12 @@ class EpistemicClaim:
                 self.status = "SUPPORTED"
                 self.confidence_score = min(0.5 + (supp_count * 0.1), 0.85)
             else:
-                # Jika semua bukti berasal dari penulis sendiri -> HANYA PROVISIONAL
                 self.status = "PROVISIONAL"
                 self.confidence_score = 0.4
         else:
             self.status = "UNVERIFIED"
             self.confidence_score = 0.0
 
-        # Enforce Hard Invariant Check
+        # 3. Post-Check Guard
         if self.status in FORBIDDEN_EPISTEMIC_STATUSES:
             raise ValueError(f"CRITICAL INVARIANT VIOLATION: Forbidden status '{self.status}' generated.")
