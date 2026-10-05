@@ -3,11 +3,19 @@
 
 
 
-
 import hashlib
 import datetime
 from dataclasses import dataclass
 from typing import Optional, List
+
+# Code-Level Invariant: Status yang DILARANG KERTAS oleh Protokol Core
+FORBIDDEN_EPISTEMIC_STATUSES = {
+    "TRUTH",
+    "ABSOLUTE_TRUTH",
+    "FACTUALLY_VERIFIED",
+    "VERIFIED_AL_HAQQ",
+    "OPTIMAL"
+}
 
 @dataclass
 class EvidenceObject:
@@ -28,8 +36,7 @@ class EvidenceObject:
     signature_status: str = "UNSIGNED"   # UNSIGNED | VALID | INVALID
     source_status: str = "UNVERIFIED"   # UNVERIFIED | DECLARED | VERIFIED_EXTERNAL
     
-    # Status Independensi (Bukan Boolean Sederhana):
-    # Valid values: UNKNOWN | DISJOINT_IDENTITY | DECLARED_INDEPENDENCE | POLICY_VERIFIED
+    # UNKNOWN | DISJOINT_IDENTITY | DECLARED_INDEPENDENCE | POLICY_VERIFIED
     independence_status: str = "UNKNOWN"
     derived_from: Optional[str] = None
 
@@ -62,19 +69,15 @@ class EpistemicClaim:
             "was_derived_from": []
         }
         
-        # 4. Evidence Layer (Mendukung Objek Bukti Baru & String Legacy)
+        # 4. Evidence Layer
         self.supporting_evidence: List[EvidenceObject] = []
         self.contradicting_evidence: List[EvidenceObject] = []
         
-        # 5. Epistemic Status
+        # 5. Epistemic Status State Machine
         self.status = "UNVERIFIED"
         self.confidence_score = 0.0
 
     def add_evidence(self, evidence, is_contradiction: bool = False, provider_agent: str = "UNKNOWN"):
-        """
-        Menambahkan bukti. Mendukung masukan berupa objek EvidenceObject 
-        maupun string (untuk kompatibilitas skrip lama).
-        """
         if isinstance(evidence, str):
             evidence_obj = EvidenceObject(
                 content=evidence,
@@ -91,21 +94,38 @@ class EpistemicClaim:
             
     def evaluate_epistemic_status(self):
         """
-        P1 Engine Rules: Evaluasi berdasarkan Objek Bukti terstruktur.
+        P2 State Machine Implementation:
+        Mencegah jalan pintas menuju SUPPORTED & menegakkan Hard Invariants.
         """
         supp_count = len(self.supporting_evidence)
         contra_count = len(self.contradicting_evidence)
+        author = self.provenance["agent"]
         
+        # Hitung bukti independen vs self-attested
+        has_external_support = any(
+            e.provider_agent != author or e.independence_status in ["DISJOINT_IDENTITY", "POLICY_VERIFIED"]
+            for e in self.supporting_evidence
+        )
+        
+        # Rule Evaluation
         if contra_count > 0 and contra_count >= supp_count:
             self.status = "CONTRADICTED"
             self.confidence_score = 0.0
-        elif supp_count > 0 and contra_count == 0:
-            # Peningkatan status dasar ke PROVISIONAL / SUPPORTED
-            self.status = "SUPPORTED"
-            self.confidence_score = min(0.5 + (supp_count * 0.15), 0.85)
         elif supp_count > 0 and contra_count > 0:
             self.status = "INCONCLUSIVE"
-            self.confidence_score = 0.4
+            self.confidence_score = 0.3
+        elif supp_count > 0 and contra_count == 0:
+            if has_external_support:
+                self.status = "SUPPORTED"
+                self.confidence_score = min(0.5 + (supp_count * 0.1), 0.85)
+            else:
+                # Jika semua bukti berasal dari penulis sendiri -> HANYA PROVISIONAL
+                self.status = "PROVISIONAL"
+                self.confidence_score = 0.4
         else:
             self.status = "UNVERIFIED"
             self.confidence_score = 0.0
+
+        # Enforce Hard Invariant Check
+        if self.status in FORBIDDEN_EPISTEMIC_STATUSES:
+            raise ValueError(f"CRITICAL INVARIANT VIOLATION: Forbidden status '{self.status}' generated.")
