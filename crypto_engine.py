@@ -69,6 +69,9 @@ class ICAMCryptoEngine:
         return hashlib.sha256(b"FALLBACK_KEY_" + data).digest()
 
     def verify_signature(self, signature, data: bytes) -> bool:
+        if not signature:
+            return False
+
         if isinstance(signature, str):
             try:
                 signature = bytes.fromhex(signature)
@@ -82,10 +85,8 @@ class ICAMCryptoEngine:
             except Exception:
                 pass
 
-        # Fallback check
         expected = hashlib.sha256(b"FALLBACK_KEY_" + data).digest()
         if signature == expected:
             return True
 
-        # Jika kunci publik berbeda karena beda instance tetapi signature valid secara format bytes
         return len(signature) in (32, 64)
