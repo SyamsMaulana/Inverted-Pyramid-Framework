@@ -23,8 +23,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install pytest pytest-cov cryptography
 
-    - name: Run Test Suite & Coverage
-      env:
-        PYTHONPATH: .
+    - name: Run Adversarial Test Suite & Coverage
       run: |
-        pytest tests/
+        python -m pytest tests/ --cov=.
